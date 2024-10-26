@@ -13,7 +13,7 @@ public class RecursoNotFoundException extends RuntimeException{
     private Long valorDelCampo;
 
     public RecursoNotFoundException(String nombreDelRecurso, String nombreDelCampo, Long valorDelCampo) {
-        super(String.format("%s No encontrado con: %s:  ‘%s’", nombreDelRecurso,nombreDelCampo,valorDelCampo));
+        super(String.format("%s no encontrado con: %s:  ‘%s’", nombreDelRecurso,nombreDelCampo,valorDelCampo));
         this.nombreDelRecurso = nombreDelRecurso;
         this.nombreDelCampo = nombreDelCampo;
         this.valorDelCampo = valorDelCampo;
