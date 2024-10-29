@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -22,6 +25,8 @@ public class Publicacion {
     private String descripcion;
     @Column(name= "contenido", nullable = false)
     private String contenido;
+    @OneToMany(mappedBy = "publicacion", cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Comentarios> comentarios = new HashSet<>();
 
 
 }

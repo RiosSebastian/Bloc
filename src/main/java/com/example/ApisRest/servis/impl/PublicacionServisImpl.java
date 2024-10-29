@@ -1,10 +1,11 @@
-package com.example.ApisRest.servis;
+package com.example.ApisRest.servis.impl;
 
 import com.example.ApisRest.dto.PublicacionDto;
 import com.example.ApisRest.dto.PublicacionRespuesta;
 import com.example.ApisRest.entity.Publicacion;
 import com.example.ApisRest.excepciones.RecursoNotFoundException;
 import com.example.ApisRest.repository.PublicacionRepository;
+import com.example.ApisRest.servis.PublicacionServis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class PublicacionServisImpl implements PublicacionServis{
+public class PublicacionServisImpl implements PublicacionServis {
 
     @Autowired
     private PublicacionRepository publicacionRepository;
