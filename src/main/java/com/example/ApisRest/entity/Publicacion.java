@@ -1,24 +1,17 @@
 package com.example.ApisRest.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Table(name="Publicacion", uniqueConstraints = {@UniqueConstraint(columnNames = {"titulo"})})
 public class Publicacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long  id;
     @Column(name= "titulo", nullable = false)
     private String titulo;
     @Column(name= "descripcion", nullable = false)
