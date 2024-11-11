@@ -6,6 +6,7 @@ import com.example.ApisRest.entity.Publicacion;
 import com.example.ApisRest.excepciones.RecursoNotFoundException;
 import com.example.ApisRest.repository.PublicacionRepository;
 import com.example.ApisRest.servis.PublicacionServis;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class PublicacionServisImpl implements PublicacionServis {
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     private PublicacionRepository publicacionRepository;
@@ -81,23 +85,13 @@ public class PublicacionServisImpl implements PublicacionServis {
 
 
     private PublicacionDto mapearDto(Publicacion publicacion){//convierte entidad a DTo
-        PublicacionDto publicacionDto = new PublicacionDto();
-        publicacionDto.setId(publicacion.getId());
-        publicacionDto.setTitulo(publicacion.getTitulo());
-        publicacionDto.setDescripcion(publicacion.getDescripcion());
-        publicacionDto.setContenido(publicacion.getContenido());
+        PublicacionDto  publicacionDto = modelMapper.map(publicacion, PublicacionDto.class);
 
         return  publicacionDto;
     }
 
     private Publicacion mapearEntidad(PublicacionDto publicacionDto){//convierte a DTo en entidad
-        Publicacion publicacion = new Publicacion();
-        publicacion.setId(publicacionDto.getId());
-        publicacion.setTitulo(publicacionDto.getTitulo());
-        publicacion.setDescripcion(publicacionDto.getDescripcion());
-        publicacion.setContenido(publicacionDto.getContenido());
-        /* se  recibe un objeto DTO (data transfer object) luego se lo tranforma en una entidad (entity)
-        para posterior mente guardarlo en la base de datos*/
+        Publicacion publicacion = modelMapper.map(publicacionDto,Publicacion.class);
         return  publicacion;
     }
 

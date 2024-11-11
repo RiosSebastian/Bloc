@@ -1,5 +1,6 @@
 package com.example.ApisRest.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.HashSet;
@@ -18,6 +19,7 @@ public class Publicacion {
     private String descripcion;
     @Column(name= "contenido", nullable = false)
     private String contenido;
+    @JsonBackReference
     @OneToMany(mappedBy = "publicacion", cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<Comentarios> comentarios = new HashSet<>();
 

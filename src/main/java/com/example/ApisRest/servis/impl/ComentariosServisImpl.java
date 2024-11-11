@@ -9,6 +9,7 @@ import com.example.ApisRest.excepciones.RecursoNotFoundException;
 import com.example.ApisRest.repository.ComentariosRepository;
 import com.example.ApisRest.repository.PublicacionRepository;
 import com.example.ApisRest.servis.ComentariosServis;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class ComentariosServisImpl implements ComentariosServis {
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     private ComentariosRepository comentariosRepository;
@@ -93,22 +97,13 @@ public class ComentariosServisImpl implements ComentariosServis {
 
 
     private ComentariosDto mapearDto(Comentarios comentarios){//convierte entidad a DTo
-        ComentariosDto comentariosDto = new ComentariosDto();
-        comentariosDto.setId(comentarios.getId());
-        comentariosDto.setCuerpo(comentarios.getCuerpo());
-        comentariosDto.setNombre(comentarios.getNombre());
-        comentariosDto.setEmail(comentarios.getEmail());
+        ComentariosDto comentariosDto = modelMapper.map(comentarios, ComentariosDto.class);
 
         return  comentariosDto;
     }
 
     private Comentarios mapearEntidad(ComentariosDto comentariosDto){//convierte a DTo en entidad
-        Comentarios comentarios = new Comentarios();
-
-        comentarios.setId(comentariosDto.getId());
-        comentarios.setCuerpo(comentariosDto.getCuerpo());
-        comentarios.setNombre(comentariosDto.getNombre());
-        comentarios.setEmail(comentariosDto.getEmail());
+        Comentarios comentarios = modelMapper.map(comentariosDto, Comentarios.class);
 
         return  comentarios;
     }
