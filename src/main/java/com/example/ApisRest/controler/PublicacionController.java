@@ -4,6 +4,7 @@ import com.example.ApisRest.dto.PublicacionDto;
 import com.example.ApisRest.dto.PublicacionRespuesta;
 import com.example.ApisRest.servis.PublicacionServis;
 import com.example.ApisRest.util.AppConstantes;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,13 +34,13 @@ public class PublicacionController {
     }
 
     @PostMapping
-    public ResponseEntity<PublicacionDto>guardarPublicaciones(@RequestBody PublicacionDto publicacionDto){
+    public ResponseEntity<PublicacionDto>guardarPublicaciones(@Valid @RequestBody PublicacionDto publicacionDto){
             return new ResponseEntity<>(publicacionServis.crearPublicacion(publicacionDto), HttpStatus.CREATED);
 
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PublicacionDto> actualizarPublicacion(@RequestBody PublicacionDto publicacionDto, @PathVariable(name = "id") long id){
+    public ResponseEntity<PublicacionDto> actualizarPublicacion(@Valid @RequestBody PublicacionDto publicacionDto, @PathVariable(name = "id") long id){
         PublicacionDto publicacionRespuesta = publicacionServis.actualizarPublicacion(publicacionDto, id );
         return new ResponseEntity<>(publicacionRespuesta, HttpStatus.OK);
     }

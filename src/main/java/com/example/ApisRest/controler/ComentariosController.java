@@ -2,6 +2,7 @@ package com.example.ApisRest.controler;
 
 import com.example.ApisRest.dto.ComentariosDto;
 import com.example.ApisRest.servis.ComentariosServis;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +29,12 @@ public class ComentariosController {
     }
 
     @PostMapping("/publicaciones/{publicacionId}/comentarios")
-    public ResponseEntity<ComentariosDto>guardarComentarios(@PathVariable (value = "publicacionId")long publicacionId, @RequestBody ComentariosDto comentariosDto){
+    public ResponseEntity<ComentariosDto>guardarComentarios( @PathVariable (value = "publicacionId")long publicacionId, @Valid @RequestBody ComentariosDto comentariosDto){
         return new ResponseEntity<>(comentariosServis.crearComentario(publicacionId, comentariosDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/publicaciones/{publicacionId}/comentarios/{Id}")
-    public ResponseEntity<ComentariosDto>actualizarComentario(@PathVariable (value = "publicacionId")Long publicacionId, @PathVariable(value = "Id")Long comentariosId, @RequestBody ComentariosDto comentariosDto){
+    public ResponseEntity<ComentariosDto>actualizarComentario( @PathVariable (value = "publicacionId")Long publicacionId,  @PathVariable(value = "Id")Long comentariosId, @Valid @RequestBody ComentariosDto comentariosDto){
         ComentariosDto comentarioActualizado = comentariosServis.ActualizarComentarios(publicacionId, comentariosId, comentariosDto);
         return new ResponseEntity<>(comentarioActualizado, HttpStatus.OK);
     }

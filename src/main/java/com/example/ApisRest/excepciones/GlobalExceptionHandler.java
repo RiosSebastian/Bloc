@@ -1,16 +1,24 @@
 package com.example.ApisRest.excepciones;
 
 import com.example.ApisRest.dto.ErrorDetalles;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.lang.reflect.Field;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RecursoNotFoundException.class)
     public ResponseEntity<ErrorDetalles>manejarResourceNotFoundException(RecursoNotFoundException exception, WebRequest webRequest){
@@ -33,4 +41,15 @@ public class GlobalExceptionHandler {
 
     }
 
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        Map<String, String> errores = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+        String NombreCampo = ((FieldError)error).getField();
+        String mensaje = error.getDefaultMessage();
+
+            errores.put(NombreCampo, mensaje);
+        });
+        return new ResponseEntity<>(errores,HttpStatus.BAD_REQUEST);
+    }
 }
