@@ -1,5 +1,6 @@
 package com.example.ApisRest.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import com.example.ApisRest.entity.Publicacion;
@@ -18,5 +19,7 @@ public class Comentarios {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "publicacion_id", nullable = false)
+    @JsonManagedReference
+
     private Publicacion publicacion;
 }
