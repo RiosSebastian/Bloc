@@ -12,18 +12,29 @@ import java.util.Date;
 public class JwtUtil {
 
     private final String SECRET_KEY = "clave_super_secreta_123456";
+    private final long ACCESS_EXPIRATION = 1000 * 60 * 15;
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
-    public String generateToken(String username) {
+    public String generateAccessToken(String username, String role) {
         return Jwts.builder()
                 .setSubject(username)
+                .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_EXPIRATION))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public String getRoleFromToken(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("role", String.class);
     }
 
     public String getUsernameFromToken(String token) {

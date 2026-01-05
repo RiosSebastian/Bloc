@@ -25,7 +25,7 @@ public class MyUserDetailsService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
                 .password(user.getPassword())
-                .roles(user.getRole()) // ej: "USER" o "ADMIN"
+                .roles(user.getRole().replace("ROLE_", ""))// ej: "USER" o "ADMIN"
                 .build();
     }
 }

@@ -3,6 +3,7 @@ package com.example.ApisRest.config;
 import com.example.ApisRest.util.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,10 +40,19 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
+                        // PUBLICO
+                        .requestMatchers(HttpMethod.GET, "/api/publicaciones/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/publicaciones/*/comentarios/**").permitAll()
+
+                        // ADMIN
+                        .requestMatchers(HttpMethod.POST, "/api/publicaciones/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/publicaciones/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/publicaciones/**").hasRole("ADMIN")
+
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/publicaciones/**").permitAll()
                         .anyRequest().authenticated()
                 )
+
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
